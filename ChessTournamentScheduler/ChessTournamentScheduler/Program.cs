@@ -21,6 +21,8 @@ class Program
         RotateThePlayers(players, playersNum);
         PrintStatistics(players);
     }
+    //O(n * (n/2)) = O(n^2/2)
+    //O(n^2)
 
     private static List<Player> CreateList(int playersNum)
     {
@@ -47,9 +49,9 @@ class Program
         return tempPlayers;
     }
 
-    private static void PrintPlayers(List<Player> players, int playersNum)
+    private static void SortAndPrintPlayers(List<Player> players, int playersNum)
     {
-        for(int i = 0; i < players.Count / 2; i++)
+        for(int i = 0; i < players.Count / 2; i++)//O(n / 2)
         {
             var firstPlayer = players[i];
             var secondPlayer = players[players.Count - i - 1];
@@ -65,14 +67,19 @@ class Program
                 continue;
             }
 
-            int k = playersNum / 2;
+            int k = playersNum / 2; //subalansuot spalvas - uzduotyje
             int diff = (secondPlayer.Number - firstPlayer.Number + playersNum) % playersNum;
+            //kiek rato zingsniu yra nuo pirmo zaidejo iki antro
 
             Player whitePlayer;
             Player blackPlayer;
 
             if (playersNum % 2 != 0)
             {
+                //Jei secondPlayer yra netoli firstPlayer pagal rata, baltais zaidžia firstPlayer
+                //Jei toliau, baltais zaidzia secondPlayer
+
+                //Kad kiekvienas zaidejas gautų vienoda spalvu kieki
                 if (diff >= 1 && diff <= k)
                 {
                     whitePlayer = firstPlayer;
@@ -119,10 +126,10 @@ class Program
     }
     private static void RotateThePlayers(List<Player> players, int playersNum)
     {
-        for(int i = 0; i < players.Count - 1; i++)
+        for(int i = 0; i < players.Count - 1; i++)//O(n - 1)
         {
             Console.WriteLine($"----------RATAS NR.{i + 1}----------");
-            PrintPlayers(players, playersNum);
+            SortAndPrintPlayers(players, playersNum);
             var lastPlayer = players[players.Count - 1];
             players.RemoveAt(players.Count - 1);
             players.Insert(1, lastPlayer);
